@@ -4,6 +4,9 @@ import java.util.UUID;
 
 import com.fusionkoding.brewskibrewery.web.model.v2.BeerDtoV2;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class BeerServiceV2Impl implements BeerServiceV2 {
 
     @Override
