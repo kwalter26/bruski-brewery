@@ -1,14 +1,21 @@
 package com.fusionkoding.brewskibrewery.web.controller.v2;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 import com.fusionkoding.brewskibrewery.service.v2.BeerServiceV2;
 import com.fusionkoding.brewskibrewery.web.model.v2.BeerDtoV2;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +41,9 @@ public class BeerControllerV2 {
     }
 
     @PostMapping
-    public ResponseEntity<BeerDtoV2> createBeer(@RequestBody BeerDtoV2 beerDto) {
+    public ResponseEntity<BeerDtoV2> createBeer(@Valid @RequestBody BeerDtoV2 beerDto) {
         BeerDtoV2 savedBeer = beerService.createBeer(beerDto);
-        return ResponseEntity.created(URI.create("/api/v1/beer/" + savedBeer.getId())).body(savedBeer);
+        return ResponseEntity.created(URI.create("/api/v2/beer/" + savedBeer.getId())).body(savedBeer);
     }
 
     @PutMapping("/{beerId}")
@@ -49,6 +56,21 @@ public class BeerControllerV2 {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBeer(UUID beerId) {
         beerService.deleteById(beerId);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List<String>> validationErrorHandler(ConstraintViolationException ex) {
+        List<String> errors = new ArrayList<>(ex.getConstraintViolations().size());
+        ex.getConstraintViolations().forEach(contraintViolation -> {
+            errors.add(contraintViolation.getPropertyPath() + " : " + contraintViolation.getMessage());
+        });
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> validationErrorHandler(MethodArgumentNotValidException ex) {
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
 }
