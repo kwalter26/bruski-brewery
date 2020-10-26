@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fusionkoding.brewskibrewery.service.BeerService;
-import com.fusionkoding.brewskibrewery.web.controller.BeerController;
 import com.fusionkoding.brewskibrewery.web.controller.v2.BeerControllerV2;
 import com.fusionkoding.brewskibrewery.web.model.BeerDto;
 

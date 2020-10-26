@@ -25,15 +25,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/beer")
 public class BeerControllerV2 {
 
     private final BeerServiceV2 beerService;
-
-    public BeerControllerV2(BeerServiceV2 beerService) {
-        this.beerService = beerService;
-    }
 
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDtoV2> getBeer(@PathVariable UUID beerId) {
@@ -42,7 +42,7 @@ public class BeerControllerV2 {
 
     @PostMapping
     public ResponseEntity<BeerDtoV2> createBeer(@Valid @RequestBody BeerDtoV2 beerDto) {
-        BeerDtoV2 savedBeer = beerService.createBeer(beerDto);
+        val savedBeer = beerService.createBeer(beerDto);
         return ResponseEntity.created(URI.create("/api/v2/beer/" + savedBeer.getId())).body(savedBeer);
     }
 
