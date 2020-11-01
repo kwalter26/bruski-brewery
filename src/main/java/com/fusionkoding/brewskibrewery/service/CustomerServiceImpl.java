@@ -24,13 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateCustomer(UUID customerId, CustomerDto customerDto) {
-        // TODO Auto-generated method stub
         log.debug("Updating customer");
     }
 
     @Override
     public void deleteById(UUID customerId) {
-        // TODO Auto-generated method stub
         log.debug("Deleting customer");
     }
 }

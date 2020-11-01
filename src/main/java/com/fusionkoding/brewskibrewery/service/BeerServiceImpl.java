@@ -25,13 +25,11 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public void updateBeer(UUID beerId, BeerDto beerDto) {
-        // TODO Auto-generated method stub
         log.debug("Updating a beer");
     }
 
     @Override
     public void deleteById(UUID beerId) {
-        // TODO Auto-generated method stub
         log.debug("Deleting a beer");
     }
 
